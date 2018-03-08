@@ -1,0 +1,32 @@
+
+//start REST OMIT
+
+http://somesite/sendvalue?from=dave&to=Satish&amount=42.00&for=ticket
+
+//end REST OMIT
+
+//start RESTx OMIT
+
+http://somesite/sendvalue?from=dave&to=SauSheong&amount=42.00&for=ticket&signature=1811c4c90b7b
+
+//end RESTx OMIT
+
+
+//start skeleton OMIT
+pragma solidity ^0.4.10;
+
+contract PowerToken {
+	... storage declarations
+
+	... methods & constructor
+}
+//end skeleton OMIT
+
+
+	ownerTx, err = bind.NewTransactor(strings.NewReader(mainKey), ",3ePVWY2LnBEZYD")
+	if err != nil {
+		log.Printf("Failed to create authorized transactor: %v", err)
+		return false
+	}
+
+

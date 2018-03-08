@@ -1,0 +1,511 @@
+ethereum for go developers
+a.k.a. hacking the blockchain
+8 Mar 2018
+Tags: Ethereum, Solidity, Smart Contracts, Golang, Gophercon India 
+
+Dave Appleton
+Lead blockchain developer, HelloGold
+calistralabs@gmail.com
+https://hellogold.com
+@AppletonDave
+
+* My aims for this workshop
+.background images/Artboard_1.png
+
+- To try to present the material in a reasonably sensible manner
+- Not to look TOO stupid
+- To convey new, interesting, useful information
+- Take each of you to a point that you have sufficient momentum to go forth alone 
+- To finish the material in roughly the alotted time
+
+* Todays Agenda
+.background images/Artboard_1.png
+- Introduction (me)
+- The Blockchain in five minutes
+- ethereum and smart Contracts
+- geth and the go-ethereum code base
+- Native Dapp bindings for smart contracts
+- ABI and ABIGEN under the hood
+- A little project
+
+
+
+  please join telegram group : Gophercon.in.2018
+
+* Introduction (me)
+.background images/Artboard_1.png
+
+.image blockchain.jpg 150 _
+- Englishman living in Southeast Asia for 36 years
+- Programming since 1968
+- background in instrumentation, machine vision
+- Happiest languages : Pascal, Modula-2, Go, Solidity
+- Blockchain dev since 2014
+- Lead blockchain developer at HelloGold, Malaysia
+- Blockchain Consultant
+
+* The blockchain in five minutes
+.background images/Artboard_1.png
+
+.image images/blockchain.png 500 _
+
+* What is a blockchain ?
+.background images/Artboard_1.png
+
+- signed transactions
+- Put into signed blocks
+- Which are added to a chain (list) by a signed link
+- in a manner such that all the independant nodes that operate the network agree the whole thing to be valid (consensus)
+
+* Transactions ?
+.background images/Artboard_1.png
+- Anything that can change the state of something.
+- A transfer of value or data
+
+    {
+       From : Dave
+       To : Alice
+       Value : 100
+       Data : "Happy Birthday Alice. Buy yourself something nice"
+    }
+
+Web analogy:
+
+.code demo_code.txt /start REST OMIT/,/end REST OMIT/
+
+Current state = sum of all previous transactions
+
+* Thought of the day....
+.background images/Artboard_1.png
+
+"Young man, in mathematics you don't understand things. You just get used to them."
+
+.caption John von Neumann.
+
+* Digital Signatures
+.background images/Artboard_1.png
+- a small change in the content causes a huge change in the result.
+.play hashBaby.go  /start main OMIT/,/end main OMIT/
+- now encrypt the hash value using public key encryption....
+
+* Public Key encryption in 20 seconds
+.background images/Artboard_1.png
+- create a truly random a private key
+- public key (address) derived from private key
+- something encrypted by private key can be read with public key
+- encrypting the hash, ensures that the hash, thus the document is unchanged
+- and ensures that the signer is who they say they are.
+
+.code demo_code.txt /start RESTx OMIT/,/end RESTx OMIT/
+
+* signing
+.background images/Artboard_1.png
+.image images/hashing.png
+
+* Into blocks
+.background images/Artboard_1.png
+
+.image images/intoblocks.png 500 _
+
+* In a manner that everybody agrees (Consensus)
+.background images/Artboard_1.png
+- not terribly relevent in our context except
+- design of consensus algorithm ensures that no one node makes all the decisions
+- makes it virtually impossible for anybody to modify the past records in the chain
+- means that each node has an identical copy of the state of the blockchain
+
+* Etherscan
+.background images/Artboard_1.png
+
+- have a look at https://etherscan.io 
+.image images/etherscan.png 350 _
+
+* Etherscan
+.background images/Artboard_1.png
+- the Google of the blockchain
+
+.image images/etherscan2.png 300 _
+
+* Wallets
+.background images/Artboard_1.png
+
+.image images/wallets.jpg 450 _
+
+* Types of wallet
+.background images/Artboard_1.png
+- Private Keys 
+    4ca8d6c2e6bf5209f953e9b8e2461c85bec9a29ac8c26199cedd94ea76433102
+- JSON files (encrypted)
+.code UTC--2018-03-03T18-22-00.825Z--794d7f1192e703b934cc92746c55a3d159f781fe
+- Managed wallets (BIP39)
+    e.g. MetaMask
+- Hardware wallets (BIP39)
+    e.g. Nano Ledger
+
+* Easy ways to access your wallet?
+.background images/Artboard_1.png
+
+Something that *performs* *one* *or* *more* *of*
+- managing keys
+- creating transactions
+- signing transactions
+is often called a Wallet. (but it isn't)
+
+* MetaMask
+.background images/Artboard_1.png
+
+Implemented in Javascript uses browser memory, BIP39 
+.image images/metamask.png 300 _
+
+Who did not get Metamask set up before the workshop?
+Who did not get test ether from faucet.rinkeby.io
+
+* MyCrypto
+.background images/Artboard_1.png
+
+.image images/mycrypto.png 500 _
+
+* First Exercise
+.background images/Artboard_1.png
+
+- Using either MyEtherWallet or MyCrypto create a json wallet
+- give it a simple password like `gopher` or `password`
+- promise to NEVER use it with real ethereum
+- send ether to it from MetaMask
+- view the transaction on Etherscan 
+- Check your balance on MEW / MyCrypto
+
+
+* Reading the key in go
+.background images/Artboard_1.png
+
+.code go/openKeyDemo/openKeyDemo.go /^func getOwnerTx/,/^}/
+
+.play  go/openKeyDemo/openKeyDemo.go /^func main/,/^}/
+
+* maybe some security
+.background images/Artboard_1.png
+
+.code go/openKey/openKey.go /^// getPassword/,/^}/
+
+.code go/openKey/openKey.go /^func main/,/END OMIT/
+
+* Ethereum & smartcontracts
+.background images/Artboard_1.png
+
+.image images/ethereumAndSmart.png 450 _
+ 
+* Ethereum and smart contracts
+.background images/Artboard_1.png
+- remember the "data" field?
+- a way to give certain blocks of byte code an address...
+- compilers
+- byte-codes
+- virtual machines....
+- function routing...
+- state variables...
+Running on thousands of nodes
+
+* What are smart contracts
+.background images/Artboard_1.png
+
+.image images/smartcontractonchain.png
+
+* The reference ethereum node implementation is.....
+.background images/Artboard_1.png
+
+.image images/go-ethereum.png
+
+.image images/ethclient.png 
+
+.background images/Artboard_1.png
+
+* Writing your first smart contract
+.background images/Artboard_1.png
+
+https://remix.ethereum.org
+
+.image images/remix-screen.png 400 _
+
+* Launch the contract
+.background images/Artboard_1.png
+
+.image images/launch.png
+
+* See the public interface
+.background images/Artboard_1.png
+
+.image images/publics.png
+
+* interact with the contract
+.background images/Artboard_1.png
+
+.image images/readingvars.png
+
+* Deploy the contract (live)
+.background images/Artboard_1.png
+
+- Set your Metamask to Rinkeby test network
+- Set the Environment to Injected Web3
+
+.image images/injectedWeb3.png
+
+* Waiting for mining
+.background images/Artboard_1.png
+
+- Create contract again
+- Watch it get Mined 
+.image images/waitmined.png
+
+* Get the details
+.background images/Artboard_1.png
+
+.image images/afterdeploy.png
+
+- and interact with it on the blockchain
+- Notice that you and interact with the top 3 buttons
+- If you click HitMe, MetaMask pops up asking you to pay in (testnet) ether
+
+* Gas and Gas Price
+.background images/Artboard_1.png
+
+Asking for information:
+
+- Since every node has the same data, you can ask ANY node.
+
+Updating information:
+
+- that data has to be mined into blocks and sent to every node to the network.
+
+The Ethereum Network charges you based on
+
+Gas Used
+- the amount of code executed
+- the amount of long term storage used
+
+Gas Price
+- What you offer to pay (and if anybody is willing to take it)
+
+* Others can access it too!
+.background images/Artboard_1.png
+
+- Get the ABI
+
+.image images/findingABI.png 400 _ 
+
+* Interact with it on MyCrypto
+.background images/Artboard_1.png
+
+.image images/MyCryptoHitMe.png 500 _
+
+* A blockchain is about trust
+.background images/Artboard_1.png
+
+Verified contract on Etherscan
+
+.image images/VerifiedEscan.png 480 _
+
+* accessible data
+.background images/Artboard_1.png
+
+.image images/readContractEScan.png
+
+* Log Entries
+.background images/Artboard_1.png
+
+- there should be TWO of these contracts listed
+- call hitMe on each
+
+.image images/eventLog.png
+
+* Well that was fun but what has that to do with Go?
+.background images/Artboard_1.png
+ 
+.image images/puzzled-gopher-green-400px.png
+
+* Remember the log event "Thump" ?
+.background images/Artboard_1.png
+- make a filter
+.code go/gophercon/gophercon.go /^func makeFilter/,/^}/
+- To = nil => 'latest' block
+- signature has function name & data types not return or names
+
+* filter blockchain : from start to latest for "Thump"
+.background images/Artboard_1.png
+.play go/gophercon/gophercon.go /^func main/,/^}/
+.link https://rinkeby.etherscan.io/tx/0xb381155e74b859b216a09ee6c6e343eced07dd1ad8baf50ae4740a07620840f4 etherscan
+
+* ABI Encoding
+.background images/Artboard_1.png
+
+In that example we had these lines :
+
+    address := common.BytesToAddress(log.Data[12:32])
+    count, _ := strconv.ParseInt(common.Bytes2Hex(log.Data[32:]), 16, 64)
+
+All data and function signatures etc use ABI encoding which can be pretty painful.
+
+.image images/ABIencoding.png 320 _
+
+* ABI for function calls 
+
+header = 1st 4 bytes of keccak256 of signature
+
+.play go/ABI/main.go /start main/,/end main/
+
+* Making it easier.... ABIGEN
+.background images/Artboard_1.png
+- ABIGEN creates a wrapper around your contract to make interaction easier
+.code go/src/wrapper/wrapper.go /^// Code generated/,/^package wrapper/
+ ...
+.code go/src/wrapper/wrapper.go /^const GopherConABI/,/^	parsed/
+
+* ABIGEN is a wrapper to 
+.background images/Artboard_1.png
+
+- get data and call the functions of the contract
+- monitor the events
+
+  for _, log := range logs {
+    address := common.BytesToAddress(log.Data[12:32])
+    count, _ := strconv.ParseInt(common.Bytes2Hex(log.Data[32:]), 16, 64)
+    fmt.Println(log.BlockNumber, " : Thump(", address.Hex(), ",", count, ")")
+  }
+
+becomes
+
+.code go/gopherconRead/gopherconRead.go /start OMIT/,/end OMIT/
+
+* Viewing past events using ABIGEN 
+.background images/Artboard_1.png
+
+.play go/gopherconRead/gopherconRead.go /long OMIT/,/end OMIT/
+
+
+* Reading the contract's status using ABIGEN 
+.background images/Artboard_1.png
+
+.play go/reader/reader.go /start OMIT/,/end OMIT/
+
+* Sending a transaction to the contract using ABIGEN 
+.background images/Artboard_1.png
+
+.play go/HitMe/hitme.go /start OMIT/,/end OMIT/
+:-)
+
+* Types of connection to ethereum nodes 
+.background images/Artboard_1.png
+
+- local RPC connection e.g.  `http://localhost:8545`
+- IPC connection e.g. `/Users/daveappleton/Library/Ethereum/rinkeby/geth.ipc`
+- remote hosts e.g. Infura or QuikNode
+
+Infura
+- free to use
+- limited range of services available (no logs)
+
+QuikNode
+- paid service
+- flexible choice of chains and clients
+- all services except accounts
+
+* Event subscription using ABIGEN 
+.background images/Artboard_1.png
+
+.play go/gopherconMonitor/monitor.go /start OMIT/,/end OMIT/
+
+* github.com/DaveAppleton/ether_go
+.background images/Artboard_1.png
+
+- Q & D library to create and use public keys
+- accounts (Keys)
+- transactions
+- connection (now uses ethclient)
+
+	account := ethKeys.NewKey("adminKeys/" + job)
+	if err := transactorAcc.RestoreOrCreate(); err != nil {
+		log.Println(err)
+	}
+
+  account.GetKey() // private key
+
+  account.PublicKey() // address 
+
+  account.PublicKeyAsHexString()
+
+* keys - utility library used here
+.background images/Artboard_1.png
+
+.code go/src/keys/keys.go /^func KeyTx/,/^}/
+
+.code go/src/keys/keys.go /^func Role/,/^}/
+
+.code go/src/keys/keys.go /^func RoleKey/,/^}/
+
+
+* Simulated Backend
+.background images/Artboard_1.png
+
+- Connect to a local one-step blockchain - i.e a chain with no history
+- excellent for testing purposes (a lot faster)
+
+.code go/simulateandtest/test.go /startClient OMIT/,/endClient OMIT/
+
+- uses the same back EVM as geth
+
+* simulated mining
+.background images/Artboard_1.png
+
+.code go/simulateandtest/test.go /startMine OMIT/,/endMine OMIT/
+
+* A test
+.background images/Artboard_1.png
+
+.play go/simulateandtest/test.go /startCode OMIT/,/endCode OMIT/
+
+* Solidity Stuff
+
+- require / assert / revert
+- modifiers
+- send / transfer
+- cross contract calls
+- fallback function
+- block time (now)
+- msg.sender, msg.value etc
+  solidity.readthedocs.io
+
+* There's something special about ethereum
+.background images/Artboard_1.png
+
+- ethereum has attracted its fair share of scams / money grabs / etc
+- it has also provided a platform for transparency in projects
+
+.image images/unhcr.png 400 _
+
+* Project Ideas I
+.background images/Artboard_1.png
+
+design a contract where you can submit a transaction
+
+function submitTransaction(address dest, bytes data)
+
+that forwards the data to the given address.
+
+
+* Project Ideas II 
+.background images/Artboard_1.png
+
+Design go code to encode transactions to be sent to project I 
+
+(this would also be useful for Multisigs)
+
+MultiSignature wallet contracts are great at sending ether but terrible at any other transaction because you submit transactions to them in the following format
+
+  {
+    To : 0x1234...
+    Value : 42
+    Data : 0x98765....
+  }
+
+Can you design code to read an ABI, ask for the correct parameters and encode it correctly?
+
