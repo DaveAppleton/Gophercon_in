@@ -392,7 +392,7 @@ becomes
 * Sending a transaction to the contract using ABIGEN 
 .background images/Artboard_1.png
 
-.play go/HitMe/hitme.go /start OMIT/,/end OMIT/
+.play go/hitMe/hitme.go /start OMIT/,/end OMIT/
 :-)
 
 * Types of connection to ethereum nodes 
