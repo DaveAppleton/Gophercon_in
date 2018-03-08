@@ -173,7 +173,7 @@ Who did not get test ether from faucet.rinkeby.io
 - Using either MyEtherWallet or MyCrypto create a json wallet
 - give it a simple password like `gopher` or `password`
 - promise to NEVER use it with real ethereum
-- send ether to it from MetaMask
+- send rinkeby test ether to it from MetaMask
 - view the transaction on Etherscan 
 - Check your balance on MEW / MyCrypto
 
@@ -298,14 +298,14 @@ Gas Price
 * Interact with it on MyCrypto
 .background images/Artboard_1.png
 
-.image images/MyCryptoHitMe.png 500 _
+.image images/myCryptoHitMe.png 500 _
 
 * A blockchain is about trust
 .background images/Artboard_1.png
 
 Verified contract on Etherscan
 
-.image images/VerifiedEscan.png 480 _
+.image images/verifiedEscan.png 480 _
 
 * accessible data
 .background images/Artboard_1.png
