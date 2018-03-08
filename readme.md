@@ -12,6 +12,11 @@ Move folowing folders to your GOPATH go/src/...
 * wrapper
 * keys
 
+CLONE github.com/ethereum/go-ethereum into the correct place on your gopath
+
+    make all
+
+    follow repo's instructions on installing abigen
 
 And "go get " the following repos
 
