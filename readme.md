@@ -1,12 +1,13 @@
 GopherCon India 2018 workshop
 ===
 
-NOTE : please CLONE this somewhere
+The programs worked on the rinkeby network.
 
-Move go/src/keys & go/wrc/wrapper to your GOPATH
+USAGE : 
 
+CLONE this somewhere (do not GO GET it)
 
-You need to add the the folloing to your GOPATH 
+Move folowing folders to your GOPATH go/src/...
 
 * wrapper
 * keys
@@ -18,4 +19,13 @@ And "go get " the following repos
 * github.com/DaveAppleton/etherUtils
 
 
-Note that this was designed to be run from present. Some files may need to be copied to working directorie.
+Note that this is designed to be run from present. 
+
+Some files may need to be copied to working directorie.
+
+KEYS AND NODE
+
+The node listed will expire 2018-03-12 17:39:10.603 +0000 UTC
+
+The key at time of writing holds about 0.5 eth on the Rinkeby network.
+Password is visible in the code. No real ether. Duh.
