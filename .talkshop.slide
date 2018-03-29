@@ -1,0 +1,301 @@
+Ethereum! Why GO there?
+a.k.a. hacking the blockchain
+9 Mar 2018
+Tags: Ethereum, Solidity, Smart Contracts, Golang, Gophercon India 
+
+Dave Appleton
+Lead blockchain developer, HelloGold
+calistralabs@gmail.com
+https://hellogold.com
+@AppletonDave
+
+* My aims for being here
+.background images/Artboard_1.png
+
+- To share what excites me about the ethereum blockchain 
+- To inspire some of you to consider working on blockchain projects
+- To explain why being a go developer puts you in a special place
+
+
+
+* Todays Agenda
+.background images/Artboard_1.png
+- Introduction (me)
+- The Blockchain in five minutes
+- ethereum and smart Contracts
+- The go-ethereum code base
+- Native Dapp bindings for smart contracts
+- What is ethereum used for today?
+
+
+* Introduction (me)
+.background images/Artboard_1.png
+
+.image blockchain.jpg 150 _
+- Englishman living in Southeast Asia for 36 years
+- Programming since 1968
+- background in instrumentation, machine vision
+- Blockchain dev since 2014
+- Lead blockchain developer at HelloGold, Malaysia
+- Blockchain Consultant
+
+* The blockchain in five minutes
+.background images/Artboard_1.png
+
+.image images/blockchain.png 500 _
+
+* What is a blockchain ?
+.background images/Artboard_1.png
+
+- signed transactions
+- Put into signed blocks
+- Which are added to a chain (list) by signed links
+- which is distributed all over a decentralised network
+- in a manner such that all the independant nodes that operate the network agree the whole thing to be valid (consensus)
+
+* Transactions ?
+.background images/Artboard_1.png
+- Anything that can change the state of something.
+- A transfer of value or data
+
+    {
+       From : Dave
+       To : Alice
+       Value : 100
+       Data : "Happy Birthday Alice. Buy yourself something nice"
+    }
+
+Web analogy:
+
+.code demo_code.txt /start REST OMIT/,/end REST OMIT/
+
+Current state = sum of all previous transactions
+
+* Thought of the day....
+.background images/Artboard_1.png
+
+"Young man, in mathematics you don't understand things. You just get used to them."
+
+.caption John von Neumann.
+
+* Digital Signatures
+.background images/Artboard_1.png
+- a small change in the content causes a huge change in the result.
+.play hashBaby.go  /start main OMIT/,/end main OMIT/
+
+If we encrypt the hash value using public key encryption 
+
+we can prove it was from me 
+
+and make it unforgeable
+
+* Public Key encryption in 20 seconds
+.background images/Artboard_1.png
+- create a truly random a private key
+- public key (address) derived from private key
+- something encrypted by private key can be read with public key 
+_or_
+
+- you can derive the signer from the encrypted data
+- encrypting the hash, ensures that the hash, thus the document is unchanged
+- and ensures that the signer is who they say they are.
+
+.code demo_code.txt /start RESTx OMIT/,/end RESTx OMIT/
+
+* signing
+.background images/Artboard_1.png
+.image images/hashing.png
+
+* Into blocks
+.background images/Artboard_1.png
+
+.image images/intoblocks.png 500 _
+
+* In a manner that everybody agrees (Consensus)
+.background images/Artboard_1.png
+
+- the details are not terribly relevent in our context except
+- design of consensus algorithm ensures that no one node makes all the decisions
+- makes it virtually impossible for anybody to modify the past records in the chain
+- means that each node has an identical copy of the state of the blockchain
+
+* Etherscan
+.background images/Artboard_1.png
+
+- have a look at https://etherscan.io 
+.image images/etherscan.png 350 _
+
+* Etherscan
+.background images/Artboard_1.png
+- the Google of the blockchain
+
+.image images/etherscan2.png 300 _
+
+* Wallets
+.background images/Artboard_1.png
+
+.image images/wallets.jpg 450 _
+
+
+* Easy ways to access your account/balance?
+.background images/Artboard_1.png
+
+Something that *performs* *one* *or* *more* *of*
+- managing keys
+- creating transactions
+- signing transactions
+is often called a Wallet. (but it isn't)
+
+
+* What makes Ethereum special ?
+.background images/Artboard_1.png
+
+.image images/ethereumAndSmart.png 450 _
+ 
+* Introducing Smart Contracts
+.background images/Artboard_1.png
+- remember the "data" field?
+- a way to give certain blocks of byte code an address...
+- compilers
+- byte-codes
+- virtual machines....
+- function routing...
+- state variables...
+Running on thousands of nodes
+
+* What are smart contracts
+.background images/Artboard_1.png
+
+.image images/smartcontractonchain.png
+
+* And the whole thing is agreed and transparent
+.background images/Artboard_1.png
+
+.image images/etherscan3.png 400 _
+
+* OK - so where does GO come in?
+.background images/Artboard_1.png
+
+- reference design is written in GO
+- designed to allow linking into codebase
+
+- while most people concentrate on the browser
+- we have a framework to allow servers to access the blockchain
+
+
+* The reference ethereum node implementation is.....
+.background images/Artboard_1.png
+
+.image images/go-ethereum.png
+
+.image images/ethclient.png 
+
+* How popular is the go-ethereum repo?
+.background images/Artboard_1.png
+
+.image images/repocharts.jpg_large
+
+* What a smart contract looks like
+.background images/Artboard_1.png
+
+https://remix.ethereum.org
+
+.image images/remix-screen.png 400 _
+
+
+* Well that was fun but what has that to do with Go?
+.background images/Artboard_1.png
+ 
+.image images/puzzled-gopher-green-400px.png
+
+* With the de-facto ethereum client written in go
+.background images/Artboard_1.png
+
+- You can interact a low level (analysis of logs)
+
+  for _, log := range logs {
+    address := common.BytesToAddress(log.Data[12:32])
+    count, _ := strconv.ParseInt(common.Bytes2Hex(log.Data[32:]), 16, 64)
+    fmt.Println(log.BlockNumber, " : Thump(", address.Hex(), ",", count, ")")
+  }
+
+- or a higher level with ABIGEN binding your contract
+
+.code go/gopherconRead/gopherconRead.go /start OMIT/,/end OMIT/
+
+* Viewing past events using ABIGEN 
+.background images/Artboard_1.png
+
+.play go/gopherconRead/gopherconRead.go /long OMIT/,/end OMIT/
+
+
+* Reading the contract's status using ABIGEN 
+.background images/Artboard_1.png
+
+.play go/reader/reader.go /start OMIT/,/end OMIT/
+
+* Sending a transaction to the contract using ABIGEN 
+.background images/Artboard_1.png
+
+.play go/hitMe/hitme.go /start OMIT/,/end OMIT/
+:-)
+
+
+
+* Simulated Backend
+.background images/Artboard_1.png
+
+- Connect to a local one-step blockchain - i.e a chain with no history
+- excellent for testing purposes (a lot faster)
+
+.code go/simulateandtest/test.go /startClient OMIT/,/endClient OMIT/
+
+- uses the same back EVM as geth
+
+
+* But There's something special about ethereum
+.background images/Artboard_1.png
+
+- The "crypto"  has attracted its fair share of scams / money grabs / etc
+- Ethereum provides a platform for transparency in projects
+
+.image images/unhcr.png 400 _
+
+
+
+* HelloGold
+.background images/Artboard_1.png
+
+.image HG.png
+
+- S.E. Asian Financial Crisis
+- Bank Negara report 75% cannot raise USD 200 in a Crisis
+- Savings products should not only be for the wealthy
+- Founded by former CFO of World Gold Council Robin Lee
+
+
+* Giveth
+.background images/Artboard_1.png
+
+.image images/giveth.png 300 _ 
+
+- Framework for Charitable fundraising and disbursal
+- Transparency 
+- Hold projects to milestones
+
+* Sentinel Chain
+.background images/Artboard_1.png
+
+.image images/sentinelchain.png 250 _
+
+.image images/sentinel2.png 250 _
+
+* Summary
+.background images/Artboard_1.png
+
+.image images/Eth-Geth-Icon.jpg
+
+
+- There is a niche for go programmers in the ethereum space
+- You will have a toolset unmatched by the main group of programmers
+- Your lives will never be the same again
